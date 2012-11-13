@@ -6,13 +6,10 @@ var	http = require('http'),
 	querystring = require('querystring');
 
 var server = http.createServer(function(req, res) {
+	console.log(req.method + ' ' + req.url);
 	
-});
-
-server.on('request', function(req, res) {
 	if (req.method == 'GET') {
 		var file = '.' + url.parse(req.url).pathname;
-		console.log('GET ' + file);
 		fs.stat(file, function(err, stats) {
 			if (err != null) {
 			if (err.errno == 2) {
@@ -44,9 +41,4 @@ server.on('request', function(req, res) {
 			res.end();
 		}
 	}
-});
-
-function moveMouse(x, y) {
-}
-
-server.listen(1337);
+}).listen(1337);
