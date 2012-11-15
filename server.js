@@ -12,10 +12,10 @@ var server = http.createServer(function(req, res) {
 		var file = '.' + url.parse(req.url).pathname;
 		fs.stat(file, function(err, stats) {
 			if (err != null) {
-			if (err.errno == 2) {
-				res.writeHead(404);
-				res.end();
-			}
+				if (err.errno == 2) {
+					res.writeHead(404);
+					res.end();
+				}
 			}
 			else if (stats.isFile()) {
 				res.writeHead(200);
@@ -25,8 +25,6 @@ var server = http.createServer(function(req, res) {
 	}
 	else if (req.method == 'PUT') {
 		var parsed = url.parse(req.url);
-		//console.log(req.url);
-		//console.log(JSON.stringify(parsed));
 		if (parsed.pathname == '/move') {
 			var query = querystring.parse(parsed.query);
 			exec('xte \'mousermove ' + query.x + ' ' + query.y + '\'');
@@ -35,6 +33,8 @@ var server = http.createServer(function(req, res) {
 		}
 		else if (parsed.pathname == '/click') {
 			exec('xte \'mouseclick 1\'');
+			res.writeHead(200);
+			res.end();
 		}
 		else {
 			res.writeHead(400);
